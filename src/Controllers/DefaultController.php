@@ -11,22 +11,20 @@
 
 namespace Core\Controllers;
 
-use Core\Traits\CoreTrait;
+use Core\Controllers\Core\Controller;
 
 /**
  * Class DefaultController
  *
  * @author Guillaume Loulier <contact@guillaumeloulier.fr>
  */
-class DefaultController
+class DefaultController extends Controller
 {
-    use CoreTrait;
-
     public function indexAction()
     {
         $articles = $this->container['ArticleManager']->getArticles();
 
-        return $this->getTwig()->render('index.html.twig', [
+        return $this->container['twig']->render('index.twig', [
             'articles' => $articles
         ]);
     }

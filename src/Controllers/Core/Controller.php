@@ -9,22 +9,16 @@
  * file that was distributed with this source code.
  */
 
-namespace App;
+namespace Core\Controllers\Core;
 
-use Core\Controllers\DefaultController;
+use Core\Traits\CoreTrait;
 
 /**
- * Class Router
+ * Class Controller
  *
  * @author Guillaume Loulier <contact@guillaumeloulier.fr>
  */
-class Router {
-
-    public function execute()
-    {
-        switch ($_GET) {
-            case $_GET['home']:
-                DefaultController->indexAction();
-        }
-    }
+class Controller
+{
+    use CoreTrait;
 }
