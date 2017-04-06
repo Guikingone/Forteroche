@@ -22,11 +22,13 @@ class DefaultController
 {
     use CoreTrait;
 
-    public static function indexAction()
+    public function indexAction()
     {
-        static::returnDB()->connect();
+        $articles = $this->container['ArticleManager']->getArticles();
 
-        return static::returnTwig()->render('index.html.twig');
+        return $this->getTwig()->render('index.html.twig', [
+            'articles' => $articles
+        ]);
     }
 
     public function articlesDetailsAction($id)

@@ -24,7 +24,7 @@ class Router {
     {
         switch ($_GET) {
             case $_GET['home']:
-                DefaultController::indexAction();
+                DefaultController->indexAction();
         }
     }
 }

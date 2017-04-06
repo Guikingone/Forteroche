@@ -12,7 +12,7 @@
 namespace Core\Traits;
 
 use Core\Services\DBConnexion;
-use Twig_Loader_Array;
+use Pimple\Container;
 
 /**
  * Class CoreTrait
@@ -21,13 +21,35 @@ use Twig_Loader_Array;
  */
 trait CoreTrait
 {
+    /** @var Container */
+    protected $container;
+
+    public function __invoke ()
+    {
+        $this->buildServices();
+    }
+
+    public function buildServices()
+    {
+        $services = [
+            __DIR__ . '../Managers/*.php',
+        ];
+
+        foreach ($services as $service) {
+            $class = new $service();
+            $this->container["$class::class"] = function ($c) {
+                return new $c();
+            };
+        }
+    }
+
     /**
      * Return the DBConnexion class, all the parameters are loaded using the
      * app/config/parameters.php file.
      *
      * @return DBConnexion
      */
-    public static function returnDB()
+    public function getDB()
     {
         $config = file_get_contents(__DIR__ . '../../app/config/parameters.php');
 
@@ -41,17 +63,9 @@ trait CoreTrait
     }
 
     /**
-     * @param string $name      The name of the service.
-     */
-    public static function returnServices(string $name)
-    {
-        // TODO
-    }
-
-    /**
      * @return \Twig_Environment
      */
-    public static function returnTwig()
+    public function getTwig()
     {
         $loader = new \Twig_Loader_Filesystem(__DIR__ . '../../web/views/');
 

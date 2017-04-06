@@ -1,4 +1,7 @@
 {
+  "name": "forteroche",
+  "description": "The source code of the third project in the Openclassrooms CDPM - Dev path",
+  "license": "MIT",
   "autoload": {
     "psr-4": {
       "App\\": "app/",
@@ -6,6 +9,7 @@
     }
   },
   "require": {
-    "twig/twig": "^2.3"
+    "twig/twig": "^2.3",
+    "pimple/pimple": "^3.0"
   }
 }

@@ -22,9 +22,6 @@ class DBConnexion
     private $db_host;
 
     /** @var string */
-    private $db_port;
-
-    /** @var string */
     private $db_name;
 
     /** @var string */
@@ -37,27 +34,47 @@ class DBConnexion
      * DBConnexion constructor.
      *
      * @param string $db_host
-     * @param string $db_port
      * @param string $db_name
      * @param string $db_user_name
      * @param string $db_user_password
      */
     public function __construct (
         $db_host,
-        $db_port,
         $db_name,
         $db_user_name,
         $db_user_password
     ) {
         $this->db_host = $db_host;
-        $this->db_port = $db_port;
         $this->db_name = $db_name;
         $this->db_user_name = $db_user_name;
         $this->db_user_password = $db_user_password;
     }
 
+    /**
+     * @return \PDO
+     */
     public function connect()
     {
-        return new \PDO();
+        try {
+            return new \PDO(
+                'pgsql:host:'.$this->db_host.';dbname=' . $this->db_name .';charset=UTF8',
+                $this->db_user_name,
+                $this->db_user_password
+            );
+        } catch (\Exception $exception) {
+            $exception->getMessage();
+        }
+    }
+
+    /**
+     * @param string $query
+     *
+     * @return \PDOStatement
+     */
+    public function buildQuery(string $query)
+    {
+        $db = $this->connect();
+
+       return $db->query($query);
     }
 }
