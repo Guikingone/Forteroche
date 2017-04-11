@@ -13,6 +13,11 @@ namespace Core\Managers;
 
 use Core\Traits\CoreTrait;
 
+/**
+ * Class ArticleManager
+ *
+ * @author Guillaume Loulier <contact@guillaumeloulier.fr>
+ */
 class ArticleManager
 {
     use CoreTrait;

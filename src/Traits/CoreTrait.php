@@ -20,6 +20,22 @@ use Core\Services\DBConnexion;
  */
 trait CoreTrait
 {
+    /** @var array */
+    private $parameters;
+
+    public function __construct ()
+    {
+        $this->getParameters();
+    }
+
+    /**
+     * Allow to load every "core" parameters.
+     */
+    public function getParameters()
+    {
+        $this->parameters = require __DIR__ . './../../app/config/config.php';
+    }
+
     /**
      * Return the DBConnexion class, all the parameters are loaded using the
      * app/config/parameters.php file.
@@ -47,7 +63,7 @@ trait CoreTrait
      */
     public function getTwig()
     {
-        $loader = new \Twig_Loader_Filesystem([__DIR__ . './../../web/views']);
+        $loader = new \Twig_Loader_Filesystem([$this->parameters['views_folder']]);
 
         return new \Twig_Environment($loader);
     }

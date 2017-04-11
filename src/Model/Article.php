@@ -9,6 +9,20 @@
  * file that was distributed with this source code.
  */
 
-return [
-    \Core\Managers\ArticleManager::class,
-];
+namespace Model;
+
+/**
+ * Class Article
+ *
+ * @author Guillaume Loulier <contact@guillaumeloulier.fr>
+ */
+class Article
+{
+    private $id;
+
+    private $title;
+
+    private $slug;
+
+    private $content;
+}
