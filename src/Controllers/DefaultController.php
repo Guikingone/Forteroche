@@ -22,11 +22,9 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-        $articles = $this->container['ArticleManager']->getArticles();
+        // $articles = $this->container['ArticleManager']->getArticles();
 
-        return $this->container['twig']->render('index.twig', [
-            'articles' => $articles
-        ]);
+        return $this->getTwig()->render('index.html.twig');
     }
 
     public function articlesDetailsAction($id)

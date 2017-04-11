@@ -22,12 +22,7 @@ use Core\Controllers\DefaultController;
 class Router {
 
     /** @var Controller[] */
-    private $controllers;
-
-    public function __construct ()
-    {
-        $this->buildControllers();
-    }
+    protected $controllers;
 
     public function buildControllers()
     {
@@ -36,13 +31,9 @@ class Router {
 
     public function execute()
     {
-        switch ($_REQUEST) {
-            case $_SERVER['REQUEST_URI'] === '/':
-                $controller = new DefaultController();
-                $controller->indexAction();
-                break;
-            case $_SERVER['REQUEST_URI'] === '/contact':
-
+        if ($_SERVER['REQUEST_URI'] === '/') {
+            $controller = new DefaultController();
+            echo $controller->indexAction();
         }
     }
 }
