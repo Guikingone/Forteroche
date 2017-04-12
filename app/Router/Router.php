@@ -33,7 +33,7 @@ class Router {
     {
         if ($_SERVER['REQUEST_URI'] === '/') {
             $controller = new DefaultController();
-            echo $controller->indexAction();
+            return $controller->indexAction();
         }
     }
 }

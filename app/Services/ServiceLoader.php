@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Forteroche project.
+ * This file is part of the forteroche project.
  *
  * (c) Guillaume Loulier <contact@guillaumeloulier.fr>
  *
@@ -9,19 +9,21 @@
  * file that was distributed with this source code.
  */
 
-namespace Core\Controllers;
+namespace App\Services;
 
-use Core\Controllers\Core\Controller;
+use Core\Managers\ArticleManager;
 
 /**
- * Class DefaultController
+ * Class ServiceLoader
  *
  * @author Guillaume Loulier <contact@guillaumeloulier.fr>
  */
-class DefaultController extends Controller
+class ServiceLoader
 {
-    public function indexAction()
+    public function getServices()
     {
-        echo $this->getTwig()->render('index.html.twig');
+        return [
+            new ArticleManager(),
+        ];
     }
 }

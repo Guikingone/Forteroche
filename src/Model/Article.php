@@ -18,11 +18,23 @@ namespace Model;
  */
 class Article
 {
+    /**
+     * @var int
+     */
     private $id;
 
+    /**
+     * @var string
+     */
     private $title;
 
+    /**
+     * @var string
+     */
     private $slug;
 
+    /**
+     * @var string
+     */
     private $content;
 }
