@@ -37,10 +37,10 @@ En plus des cours du parcours, vous pouvez consulter les ressources suivantes po
 - [eBook] [UML 2 par la pratique - Études de cas et exercices corrigés](https://openclassrooms.com/ebooks/uml-2-par-la-pratique-etudes-de-cas-et-exercices-corriges)
 - [OpenClassrooms] [Chapitre "Fonctions d'aggrégation" du cours MySQL](https://openclassrooms.com/courses/administrez-vos-bases-de-donnees-avec-mysql/fonctions-d-agregation)
 
-###Fichiers à fournir
+### Fichiers à fournir
 
 - Code HTML, CSS, PHP et JavaScript
 - Export de la base de données MySQL
 
-###Soutenance
+### Soutenance
 Pour cette soutenance, vous vous positionnerez comme un développeur présentant pendant 25 minutes son travail à son collègue plus senior dans l’agence web afin de vérifier que le projet peut être présenté tel quel à Jean Forteroche. Cette étape sera suivie de 5 minutes de questions/réponses.
