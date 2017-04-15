@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Forteroche project.
+ * This file is part of the forteroche project.
  *
  * (c) Guillaume Loulier <contact@guillaumeloulier.fr>
  *
@@ -9,14 +9,6 @@
  * file that was distributed with this source code.
  */
 
-namespace Core\Entity;
+use Core\Traits\CoreTrait;
 
-/**
- * Class Article
- *
- * @author Guillaume Loulier <contact@guillaumeloulier.fr>
- */
-class Article
-{
-
-}
+CoreTrait::initConsole();

@@ -1,4 +1,5 @@
 Main config
 /app/config/parameters.php
+/app/config/config.php
 
 /vendor/

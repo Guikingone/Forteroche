@@ -11,8 +11,6 @@
 
 namespace Core\Managers;
 
-use Core\Traits\CoreTrait;
-
 /**
  * Class ArticleManager
  *
@@ -20,15 +18,11 @@ use Core\Traits\CoreTrait;
  */
 class ArticleManager
 {
-    use CoreTrait;
-
     /**
      * @return mixed
      */
     public function getArticles()
     {
-        $response = $this->getDB()->buildQuery('SELECT * FROM _forteroche_articles');
 
-        return $response->fetch();
     }
 }

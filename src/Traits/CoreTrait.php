@@ -11,7 +11,10 @@
 
 namespace Core\Traits;
 
-use Core\Services\DBConnexion;
+use Doctrine\ORM\Tools\Setup;
+use Doctrine\ORM\ORMException;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Tools\Console\ConsoleRunner;
 
 /**
  * Class CoreTrait
@@ -21,7 +24,10 @@ use Core\Services\DBConnexion;
 trait CoreTrait
 {
     /** @var array */
-    private $parameters;
+    private $paths;
+
+    /** @var array */
+    private $config;
 
     public function __construct ()
     {
@@ -33,26 +39,45 @@ trait CoreTrait
      */
     public function getParameters()
     {
-        $this->parameters = require __DIR__ . './../../app/config/config.php';
+        $this->paths = require __DIR__ . './../../app/config/paths.php';
     }
 
     /**
-     * Return the DBConnexion class, all the parameters are loaded using the
-     * app/config/parameters.php file.
+     * Allow to load the app config (like DB params).
+     */
+    public function getConfig()
+    {
+        $this->config = require __DIR__ . './../../app/config/config.php';
+    }
+
+    /**
+     * Init the Doctrine EntityManager object.
      *
-     * @return DBConnexion
+     * @throws ORMException
+     * @throws \InvalidArgumentException
+     *
+     * @return EntityManager
      */
     public function getDB()
     {
-        $config = file_get_contents(__DIR__ . '../../app/config/parameters.php');
+        $config = Setup::createAnnotationMetadataConfiguration($this->paths['entity_path'], true);
 
-        return new DBConnexion(
-            $config['db_host'],
-            $config['db_port'],
-            $config['db_name'],
-            $config['db_user_name'],
-            $config['db_user_password']
-        );
+        $connexion = $this->config['doctrine_config'];
+
+        return EntityManager::create($connexion, $config);
+    }
+
+    /**
+     * Init the Doctrine console.
+     *
+     * @throws ORMException
+     * @throws \InvalidArgumentException
+     *
+     * @return \Symfony\Component\Console\Helper\HelperSet
+     */
+    public static function initConsole()
+    {
+        return ConsoleRunner::createHelperSet(CoreTrait::getDB());
     }
 
     /**
@@ -63,7 +88,7 @@ trait CoreTrait
      */
     public function getTwig()
     {
-        $loader = new \Twig_Loader_Filesystem([$this->parameters['views_folder']]);
+        $loader = new \Twig_Loader_Filesystem([$this->paths['views_folder']]);
 
         return new \Twig_Environment($loader);
     }

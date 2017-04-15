@@ -18,7 +18,7 @@ use Core\Traits\CoreTrait;
  *
  * @author Guillaume Loulier <contact@guillaumeloulier.fr>
  */
-class Controller
+abstract class Controller
 {
     use CoreTrait;
 }
