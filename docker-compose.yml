@@ -7,3 +7,16 @@ services:
             - '8080:80'
         volumes:
             - .:/usr/local/apache2/htdocs
+        depends_on:
+            - php
+
+    php:
+        build: './docker/php'
+        volumes:
+            - .:/usr/local/apache2/htdocs
+
+    postgres:
+        image: postgres:latest
+        ports:
+            - '5432:5432'
+

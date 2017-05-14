@@ -6,4 +6,3 @@ use App\Router\Router;
 
 $router = new Router();
 $router->execute();
-
