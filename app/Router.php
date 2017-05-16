@@ -9,9 +9,8 @@
  * file that was distributed with this source code.
  */
 
-namespace App\Router;
+namespace App;
 
-use Core\Controllers\Core\Controller;
 use Core\Controllers\DefaultController;
 
 /**
@@ -20,14 +19,6 @@ use Core\Controllers\DefaultController;
  * @author Guillaume Loulier <contact@guillaumeloulier.fr>
  */
 class Router {
-
-    /** @var Controller[] */
-    protected $controllers;
-
-    public function buildControllers()
-    {
-
-    }
 
     public function execute()
     {

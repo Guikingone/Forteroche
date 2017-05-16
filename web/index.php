@@ -2,7 +2,7 @@
 
 require __DIR__ . './../autoload.php';
 
-use App\Router\Router;
+use App\Kernel;
 
-$router = new Router();
-$router->execute();
+$kernel = new Kernel();
+$kernel->handleRequest();

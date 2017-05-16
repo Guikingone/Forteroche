@@ -1,14 +1,12 @@
 version: "3.1"
 
 services:
-    apache:
-        image: httpd:latest
+    nginx:
+        image: nginx:latest
         ports:
-            - '8080:80'
+            - '8000:80'
         volumes:
-            - .:/usr/local/apache2/htdocs
-        depends_on:
-            - php
+            - .:/srv/forteroche
 
     php:
         build: './docker/php'

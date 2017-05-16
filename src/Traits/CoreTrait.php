@@ -51,36 +51,6 @@ trait CoreTrait
     }
 
     /**
-     * Init the Doctrine EntityManager object.
-     *
-     * @throws ORMException
-     * @throws \InvalidArgumentException
-     *
-     * @return EntityManager
-     */
-    public function getDB()
-    {
-        $config = Setup::createAnnotationMetadataConfiguration($this->paths['entity_path'], true);
-
-        $connexion = $this->config['doctrine_config'];
-
-        return EntityManager::create($connexion, $config);
-    }
-
-    /**
-     * Init the Doctrine console.
-     *
-     * @throws ORMException
-     * @throws \InvalidArgumentException
-     *
-     * @return \Symfony\Component\Console\Helper\HelperSet
-     */
-    public static function initConsole()
-    {
-        return ConsoleRunner::createHelperSet(CoreTrait::getDB());
-    }
-
-    /**
      * Return the Twig template engine, every files called are stored
      * into the web/views directory.
      *
