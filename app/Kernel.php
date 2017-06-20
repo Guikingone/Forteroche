@@ -24,7 +24,8 @@ class Kernel
 
     public function __construct()
     {
-        $this->build();
+        //$this->build();
+        $this->router = new Router();
     }
 
     /**
@@ -127,6 +128,6 @@ class Kernel
      */
     public function handleRequest()
     {
-        $this->router->dispatch();
+        $this->router->execute();
     }
 }

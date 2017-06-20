@@ -1,20 +1,47 @@
 version: "3.1"
 
 services:
+    # Server configuration
     nginx:
-        image: nginx:latest
+        container_name: forteroche_nginx_docker
+        image: nginx
+        deploy:
+             replicas: 3
+             restart_policy:
+                 condition: any
         ports:
             - '8000:80'
         volumes:
-            - .:/srv/forteroche
+            - './docker/php/test/:/srv/forteroche'
+            - './docker/nginx/:/etc/nginx/conf.d:ro'
+        links:
+            - php
+        restart: always
 
     php:
-        build: './docker/php'
+        container_name: forteroche_php_docker
+        image: php:7.1.5-fpm
+        deploy:
+             replicas: 3
+             restart_policy:
+                 condition: any
         volumes:
-            - .:/usr/local/apache2/htdocs
+            - './docker/php/test/:/srv/forteroche'
+        restart: always
 
-    postgres:
-        image: postgres:latest
-        ports:
-            - '5432:5432'
+    # Testing configuration
+    blackfire:
+        container_name: forteroche_blackfire_docker
+        image: blackfire/blackfire
+        deploy:
+             replicas: 2
+             restart_policy:
+                 condition: any
+        links:
+            - php
+        restart: always
 
+volumes:
+    mongo_docker:
+    postgres_docker:
+    mysql_docker:
