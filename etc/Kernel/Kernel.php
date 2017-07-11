@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace App;
+namespace App\Kernel;
 
 /**
  * Class Kernel
@@ -59,7 +59,7 @@ class Kernel
     {
         $finder = new Finder();
         try {
-            $finder->in(__DIR__.'../src/Action')->files()->name('*Action.php');
+            $finder->in(__DIR__ . '../src/Action')->files()->name('*Action.php');
         } catch(\InvalidArgumentException $e) {
             $e->getMessage();
         }
@@ -97,7 +97,7 @@ class Kernel
     {
         $finder = new Finder();
         try {
-            $finder->in(__DIR__.'../src/Managers')->files()->name('*Manager.php');
+            $finder->in(__DIR__ . '../src/Managers')->files()->name('*Manager.php');
         } catch(\InvalidArgumentException $e) {
             $e->getMessage();
         }

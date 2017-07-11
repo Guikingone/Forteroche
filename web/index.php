@@ -11,7 +11,7 @@
 
 require __DIR__ . './../autoload.php';
 
-use App\Kernel;
+use App\Kernel\Kernel;
 
 $kernel = new Kernel();
 $kernel->handleRequest();
