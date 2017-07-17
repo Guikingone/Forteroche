@@ -3,3 +3,6 @@ Main config
 /app/config/config.php
 
 /vendor/
+
+# Docker
+.env

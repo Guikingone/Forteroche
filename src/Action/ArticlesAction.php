@@ -12,21 +12,14 @@
 namespace Core\Action;
 
 /**
- * Class HomeAction
+ * Class ArticlesAction
  *
  * @author Guillaume Loulier <contact@guillaumeloulier.fr>
  */
-final class HomeAction
+final class ArticlesAction
 {
-    private $render;
-
-    public function __construct()
-    {
-
-    }
-
     public function __invoke()
     {
-        echo 'Hello World from Action !';
+        echo 'Hello from articles !';
     }
 }

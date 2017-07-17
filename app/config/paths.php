@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the forteroche project.
+ * This file is part of the Forteroche project.
  *
  * (c) Guillaume Loulier <contact@guillaumeloulier.fr>
  *

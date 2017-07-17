@@ -11,6 +11,11 @@
 
 namespace App\Kernel;
 
+use Pimple\Container;
+
+// Core
+use App\Routing\Router;
+
 /**
  * Class Kernel
  *
@@ -18,109 +23,46 @@ namespace App\Kernel;
  */
 class Kernel
 {
+    /** @var Container */
+    private $container;
 
     /** @var Router */
     private $router;
 
+    /** @var array */
+    private $parameters;
+
+    /**
+     * Kernel constructor.
+     */
     public function __construct()
     {
-        //$this->build();
-        $this->router = new Router();
+        $this->build();
     }
 
     /**
-     * Allow to build the Kernel and load the different dependencies needed
-     * for the core to boot.
+     * Allow to instantiate the Container,
+     * the Router then load every parameters.
      */
     public function build()
     {
         if ($this->container instanceof Container) {
             return;
         }
+
         $this->container = new Container();
 
         if ($this->router instanceof Router) {
             return;
         }
+
         $this->router = new Router();
 
         if (!empty($this->parameters)) {
             return;
         }
-        $this->parameters = require __DIR__ . '/config/parameters.php';
-    }
 
-    /**
-     * Allow to load every Actions registered into the Action folder.
-     *
-     * @throws \ReflectionException
-     */
-    public function loadActions()
-    {
-        $finder = new Finder();
-        try {
-            $finder->in(__DIR__ . '../src/Action')->files()->name('*Action.php');
-        } catch(\InvalidArgumentException $e) {
-            $e->getMessage();
-        }
-
-        foreach ($finder as $file) {
-            $class = new \ReflectionClass($file->getFilename());
-            $args = $class->getConstructor()->getParameters();
-
-            foreach ($args as $parameter) {
-                if (array_key_exists($parameter, $this->responders)) {
-                    $argument = new $this->responders[$parameter];
-                    $this->actions[$class->getName()] = $class->newInstanceArgs($argument);
-                }
-            }
-        }
-    }
-
-    /**
-     * Allow to load every Responder and spread them in to the Actions linked.
-     */
-    public function loadResponders()
-    {
-        $finder = new Finder();
-        try {
-            $finder->in(__DIR__.'../src/Responders')->files()->name('*Responder.php');
-        } catch(\InvalidArgumentException $e) {
-            $e->getMessage();
-        }
-    }
-
-    /**
-     *
-     */
-    public function loadManagers()
-    {
-        $finder = new Finder();
-        try {
-            $finder->in(__DIR__ . '../src/Managers')->files()->name('*Manager.php');
-        } catch(\InvalidArgumentException $e) {
-            $e->getMessage();
-        }
-    }
-
-    /**
-     *
-     */
-    public function loadServices()
-    {
-        $this->services = require __DIR__ . '/config/services.php';
-
-        foreach ($this->services as $service) {
-            $class = new \ReflectionClass($service['class']);
-            $this->container[$class->getName()] = function ($c) {
-                return new $c;
-            };
-        }
-
-        $this->container['templating'] = function () {
-            $loader = new \Twig_Loader_Filesystem([$this->parameters['views_folder']]);
-            return new \Twig_Environment($loader);
-        };
+        $this->parameters = require __DIR__ . './../../app/config/parameters.php';
     }
 
     /**
