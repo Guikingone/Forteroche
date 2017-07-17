@@ -64,7 +64,7 @@ class Router {
      *
      * @param object $url
      */
-    public function catchParam($url)
+    public function catchParam(object $url)
     {
         $param = $url->match($_SERVER['REQUEST_URI']);
 

@@ -18,13 +18,6 @@ namespace Core\Action;
  */
 final class HomeAction
 {
-    private $render;
-
-    public function __construct()
-    {
-
-    }
-
     public function __invoke()
     {
         echo 'Hello World from Action !';
