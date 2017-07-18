@@ -5,4 +5,5 @@ Main config
 /vendor/
 
 # Docker
+/docker/nginx/logs/
 .env

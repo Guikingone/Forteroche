@@ -51,12 +51,16 @@ class Route
     }
 
     /**
+     * Return the whole path.
+     *
      * @return string
      */
     public function getPath() : string
     {
         if ($this->param) {
             $this->data[] = $this->param;
+
+            return $this->path;
         }
 
         return $this->path;
@@ -163,6 +167,6 @@ class Route
 
         array_shift($match);
 
-        return $match;
+        $this->setParam($match);
     }
 }

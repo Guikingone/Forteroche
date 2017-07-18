@@ -16,17 +16,10 @@ namespace App\Routing;
  *
  * @author Guillaume Loulier <contact@guillaumeloulier.fr>
  */
-class Router {
-
+class Router
+{
     /**
-     * An array of routes defined by routes.php.
-     *
-     * @var array
-     */
-    private $routes = [];
-
-    /**
-     * The array of request that the Router can manage.
+     * The array of routes that can be managed.
      *
      * @var array
      */
@@ -45,9 +38,9 @@ class Router {
      */
     public function build()
     {
-        $this->routes = require __DIR__ . './../../app/config/routes.php';
+        $routes = require __DIR__ . './../../app/config/routes.php';
 
-        foreach ($this->routes as $index => $entry) {
+        foreach ($routes as $index => $entry) {
             $route = new Route(
                 $entry['path'],
                 $entry['action'],
@@ -58,17 +51,22 @@ class Router {
         }
     }
 
+    public function receiveActions(array $actions)
+    {
+        foreach ($actions as $action => $value) {
+
+        }
+    }
+
     /**
      * Allow to catch the param passed through the uri
      * and set them as default parameters in the Route.
      *
-     * @param object $url
+     * @param object $route
      */
-    public function catchParam(object $url)
+    public function catchParam($route, $request)
     {
-        $param = $url->match($_SERVER['REQUEST_URI']);
-
-        $url->setParam($param);
+        $route->match($request);
     }
 
     /**
@@ -111,7 +109,7 @@ class Router {
     public function execute()
     {
         foreach ($this->request as $request) {
-            $this->catchParam($request);
+            $this->catchParam($request, $_SERVER['REQUEST_URI']);
             switch ($_SERVER['REQUEST_URI']) {
                 case $request->getPath():
                     return $this->returnClass($request->getAction(), $request->getData());

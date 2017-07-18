@@ -14,17 +14,20 @@ return [
         'path' => '/',
         'action' => Core\Action\HomeAction::class,
         'method' => 'GET',
-        'params' => '',
     ],
     'articles' => [
         'path' => '/articles',
         'action' => Core\Action\ArticlesAction::class,
         'method' => 'GET',
-        'params' => '',
     ],
     'articles_details' => [
         'path' => '/article/details/:id',
         'action' => Core\Action\ArticleDetailsAction::class,
-        'method' => 'GET'
+        'method' => 'GET',
+    ],
+    'article_create' => [
+        'path' => '/article/create',
+        'action' => Core\Action\ArticleCreateAction::class,
+        'method' => 'POST'
     ]
 ];

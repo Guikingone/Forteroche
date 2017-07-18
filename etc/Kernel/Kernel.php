@@ -11,10 +11,9 @@
 
 namespace App\Kernel;
 
-use Pimple\Container;
-
 // Core
 use App\Routing\Router;
+use App\Action\ActionResolver;
 
 /**
  * Class Kernel
@@ -23,14 +22,20 @@ use App\Routing\Router;
  */
 class Kernel
 {
-    /** @var Container */
-    private $container;
-
     /** @var Router */
     private $router;
 
+    /** @var ActionResolver */
+    private $actionResolver;
+
+    /** @var array */
+    private $services = [];
+
     /** @var array */
     private $parameters;
+
+    /** @var array */
+    private $paths;
 
     /**
      * Kernel constructor.
@@ -46,11 +51,10 @@ class Kernel
      */
     public function build()
     {
-        if ($this->container instanceof Container) {
-            return;
-        }
+        $this->parameters = require __DIR__ . './../../app/config/parameters.php';
+        $this->paths = require __DIR__ . './../../app/config/paths.php';
 
-        $this->container = new Container();
+        $this->loadDefaultsDependencies();
 
         if ($this->router instanceof Router) {
             return;
@@ -58,11 +62,64 @@ class Kernel
 
         $this->router = new Router();
 
-        if (!empty($this->parameters)) {
+        if ($this->actionResolver instanceof ActionResolver) {
             return;
         }
 
-        $this->parameters = require __DIR__ . './../../app/config/parameters.php';
+        $this->actionResolver = new ActionResolver($this->services);
+
+        $this->chargeActions();
+
+        if (!empty($this->parameters)) {
+            return;
+        }
+    }
+
+    /**
+     * Allow to load every core dependencies.
+     *
+     * @throws \LogicException
+     */
+    public function loadDefaultsDependencies()
+    {
+        $services = require __DIR__.'./../services.php';
+
+        foreach ($services as $service => $value) {
+            if (!$value['class']) {
+                throw new \LogicException(
+                    sprintf(
+                        'Invalid definition !'
+                    )
+                );
+            }
+
+            if ($value['params']) {
+                if ((array_key_exists($value['params'], $this->parameters))) {
+
+                    $class = new $value['class']($this->parameters[$value['params']]);
+
+                    if ($value['return']) {
+                        $serv =  new $value['return']($class);
+                        $this->services[] = $serv;
+                    }
+                }
+
+                if (array_key_exists($value['params'], $this->paths)) {
+
+                    $class = new $value['class']($this->paths[$value['params']]);
+
+                    if ($value['return']) {
+                        $serv =  new $value['return']($class);
+                        $this->services[] = $serv;
+                    }
+                }
+            }
+        }
+    }
+
+    public function chargeActions()
+    {
+        $this->router->receiveActions($this->actionResolver->getActions());
     }
 
     /**
