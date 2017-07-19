@@ -9,17 +9,17 @@
  * file that was distributed with this source code.
  */
 
-namespace Core\Action;
+namespace Core\Action\Core;
 
 /**
- * Class ArticlesAction
+ * Class ContactAction
  *
  * @author Guillaume Loulier <contact@guillaumeloulier.fr>
  */
-final class ArticlesAction
+final class ContactAction
 {
     public function __invoke()
     {
-        echo 'Hello from articles !';
+        echo 'Hello from contact !';
     }
 }

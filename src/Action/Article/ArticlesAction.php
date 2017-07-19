@@ -9,30 +9,17 @@
  * file that was distributed with this source code.
  */
 
-namespace Core\Action;
+namespace Core\Action\Article;
 
 /**
- * Class HomeAction
+ * Class ArticlesAction
  *
  * @author Guillaume Loulier <contact@guillaumeloulier.fr>
  */
-final class HomeAction
+final class ArticlesAction
 {
-    /** @var \Twig_Environment */
-    private $twig;
-
-    /**
-     * HomeAction constructor.
-     *
-     * @param \Twig_Environment $twig
-     */
-    public function __construct($twig)
-    {
-        $this->twig = $twig;
-    }
-
     public function __invoke()
     {
-        echo 'Hello World from Action !';
+        echo 'Hello from articles !';
     }
 }

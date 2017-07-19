@@ -69,6 +69,11 @@ class Router
         $route->match($request);
     }
 
+    public function catchData($route, $request)
+    {
+
+    }
+
     /**
      * Allow to return the class using __invoke method;
      *

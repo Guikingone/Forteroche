@@ -11,13 +11,28 @@
 
 namespace Core\Managers;
 
+use App\DB\DBFactory;
+
 /**
  * Class ArticleManager
  *
  * @author Guillaume Loulier <contact@guillaumeloulier.fr>
  */
-class ArticleManager
+final class ArticleManager
 {
+    /** @var DBFactory */
+    private $db;
+
+    /**
+     * ArticleManager constructor.
+     *
+     * @param DBFactory $db
+     */
+    public function __construct(DBFactory $db)
+    {
+        $this->db = $db;
+    }
+
     /**
      * @return mixed
      */

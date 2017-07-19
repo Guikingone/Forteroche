@@ -11,6 +11,9 @@
 
 namespace App\Kernel;
 
+// Pimple
+use Pimple\Container;
+
 // Core
 use App\Routing\Router;
 use App\Action\ActionResolver;
@@ -20,7 +23,7 @@ use App\Action\ActionResolver;
  *
  * @author Guillaume Loulier <contact@guillaumeloulier.fr>
  */
-class Kernel
+class Kernel extends Container
 {
     /** @var Router */
     private $router;
@@ -31,18 +34,15 @@ class Kernel
     /** @var array */
     private $services = [];
 
-    /** @var array */
-    private $parameters;
-
-    /** @var array */
-    private $paths;
-
     /**
      * Kernel constructor.
      */
     public function __construct()
     {
         $this->build();
+
+        // Pimple
+        parent::__construct();
     }
 
     /**
@@ -51,10 +51,7 @@ class Kernel
      */
     public function build()
     {
-        $this->parameters = require __DIR__ . './../../app/config/parameters.php';
-        $this->paths = require __DIR__ . './../../app/config/paths.php';
-
-        $this->loadDefaultsDependencies();
+        $this->initializeContainer();
 
         if ($this->router instanceof Router) {
             return;
@@ -76,43 +73,43 @@ class Kernel
     }
 
     /**
-     * Allow to load every core dependencies.
-     *
-     * @throws \LogicException
+     * Allow to load the core dependencies.
      */
-    public function loadDefaultsDependencies()
+    public function initializeContainer()
     {
-        $services = require __DIR__.'./../services.php';
+        $paths = require __DIR__ . './../../app/config/paths.php';
+        $parameters = require __DIR__ . './../../app/config/parameters.php';
+
+        foreach ($paths as $path => $value) {
+            if ($this->offsetExists($path)) {
+                return;
+            }
+            $this[$path] = $value;
+        }
+
+        foreach ($parameters as $parameter => $item) {
+            if ($this->offsetExists($parameter)) {
+                return;
+            }
+            $this[$parameter] = $item;
+        }
+
+        $services = require $this['root_dir'].'etc/services.php';
 
         foreach ($services as $service => $value) {
-            if (!$value['class']) {
-                throw new \LogicException(
-                    sprintf(
-                        'Invalid definition !'
-                    )
-                );
+
+            if ($this->offsetExists($service)) {
+                return;
             }
 
-            if ($value['params']) {
-                if ((array_key_exists($value['params'], $this->parameters))) {
+            if ($this->offsetExists($value['params'])) {
 
-                    $class = new $value['class']($this->parameters[$value['params']]);
+                $keys = $this->offsetGet($value['params']);
+                $class = new $value['class']($keys);
 
-                    if ($value['return']) {
-                        $serv =  new $value['return']($class);
-                        $this->services[] = $serv;
-                    }
-                }
-
-                if (array_key_exists($value['params'], $this->paths)) {
-
-                    $class = new $value['class']($this->paths[$value['params']]);
-
-                    if ($value['return']) {
-                        $serv =  new $value['return']($class);
-                        $this->services[] = $serv;
-                    }
-                }
+                $this[$service] = function ($c) {
+                    return new $value['return']($class);
+                };
             }
         }
     }
