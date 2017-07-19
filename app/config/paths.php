@@ -11,6 +11,5 @@
 
 return [
     'root_dir' => __DIR__ . '/../../',
-    'entity_path' => __DIR__ . '/../../src/Entity',
     'templates_folder' => __DIR__ . '/../../templates',
 ];

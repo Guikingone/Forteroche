@@ -69,9 +69,40 @@ class Router
         $route->match($request);
     }
 
-    public function catchData($route, $request)
+    /**
+     * Allow to catch the parameters passed through the request/route.
+     *
+     * @param object $route         The Route to catch.
+     * @param array $request        The Request to catch.
+     *
+     * @throws \LogicException      If the route isn't passed.
+     * @throws \LogicException      If the request isn't an array.
+     */
+    public function catchData($route, array $request)
     {
 
+        if (!$route) {
+            throw new \LogicException(
+                sprintf(
+                    'A route must be passed as argument !'
+                )
+            );
+        }
+
+        if (!is_array($request)) {
+            throw new \LogicException(
+                sprintf(
+                    'The request SHOULD be an array ! Given %s',
+                    gettype($request)
+                )
+            );
+        }
+
+        if ($route->getMethod() !== 'POST') {
+            return;
+        }
+
+        $route->setData($_POST);
     }
 
     /**
@@ -115,6 +146,7 @@ class Router
     {
         foreach ($this->request as $request) {
             $this->catchParam($request, $_SERVER['REQUEST_URI']);
+            $this->catchData($request, $_SERVER);
             switch ($_SERVER['REQUEST_URI']) {
                 case $request->getPath():
                     return $this->returnClass($request->getAction(), $request->getData());
